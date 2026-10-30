@@ -1,0 +1,18 @@
+BAB II
+LANDASAN TEORI
+
+2.X Pengertian Java
+
+Java adalah bahasa pemrograman tingkat tinggi yang sepenuhnya berorientasi objek (Object-Oriented Programming / OOP). Berbeda dengan bahasa pemrograman lain yang dikompilasi menjadi bahasa mesin spesifik untuk satu platform, kode program Java dikompilasi menjadi sebuah format perantara yang disebut bytecode. Bytecode ini kemudian dieksekusi oleh Java Virtual Machine (JVM), yang memungkinkan program Java dapat dijalankan di berbagai sistem operasi dan perangkat keras yang berbeda tanpa perlu melakukan kompilasi ulang (bersifat platform-independent atau multiplatform).
+
+Salah satu keunggulan utama dari teknologi Java adalah prinsip "Write Once, Run Anywhere" (Tulis sekali, jalankan di mana saja). Bahasa Java bersifat General Purpose, yang berarti bahasa ini sangat fleksibel dan dapat digunakan secara luas untuk berbagai macam pengembangan sistem, mulai dari aplikasi desktop (standalone), aplikasi berbasis web, hingga aplikasi perangkat bergerak (mobile). Selain itu, karena menggunakan pendekatan berorientasi objek murni, Java membungkus semua aspek pemrogramannya ke dalam bentuk kelas (class) dan objek, yang sangat memudahkan pengembang dalam merancang, memodifikasi, dan memelihara aplikasi dalam skala yang kompleks dan besar.
+
+---
+
+DAFTAR PUSTAKA
+
+Susanto, W. E., & Meiryani. (2019). Perancangan Aplikasi Penggajian Karyawan Menggunakan Java. Jurnal Manajemen Informatika Jayakarta, 1(1), 34-45. 
+Tersedia pada: http://journal.stmikjayakarta.ac.id/index.php/JMIJayakarta/article/view/884
+
+Silaen, Y., dkk. (2021). Perancangan Sistem Pengolahan Data Nilai Siswa Berbasis Java. STRING (Satuan Tulisan Riset dan Inovasi Teknologi), 5(3), 271-280. 
+Tersedia pada: http://journal.lppmunindra.ac.id/index.php/string/article/view/3642
