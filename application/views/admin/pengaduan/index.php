@@ -43,7 +43,8 @@
                     <thead>
                         <tr class="text-muted small">
                             <th>NO</th>
-                            <th>PELAPOR &amp; KONTAK</th>
+                            <th>NAMA PELAPOR</th>
+                            <th>KONTAK PELAPOR</th>
                             <th>KATEGORI &amp; LOKASI</th>
                             <th>ISI PENGADUAN</th>
                             <th>STATUS</th>
@@ -58,11 +59,16 @@
                                 <td class="fw-bold text-muted small"><?= $no++; ?></td>
                                 <td>
                                     <div class="fw-bold text-dark"><?= htmlspecialchars($p['nama_pelapor']); ?></div>
-                                    <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $p['no_hp']); ?>" target="_blank" class="small text-success text-decoration-none fw-semibold">
-                                        <i class="fab fa-whatsapp me-1"></i><?= htmlspecialchars($p['no_hp']); ?>
-                                    </a>
                                     <?php if(!empty($p['nik'])): ?>
-                                        <div class="text-muted font-monospace" style="font-size:10px;">NIK: <?= htmlspecialchars($p['nik']); ?></div>
+                                        <div class="text-muted font-monospace" style="font-size:11px;">NIK: <?= htmlspecialchars($p['nik']); ?></div>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <div class="font-monospace fw-semibold text-dark small" style="letter-spacing:0.3px;">
+                                        <?= htmlspecialchars($p['no_hp'] ?: '-'); ?>
+                                    </div>
+                                    <?php if(!empty($p['email'])): ?>
+                                        <div class="text-muted small" style="font-size:11px;"><?= htmlspecialchars($p['email']); ?></div>
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -70,7 +76,7 @@
                                     <div class="small text-muted"><i class="fas fa-location-dot me-1"></i><?= htmlspecialchars($p['lokasi_layanan']); ?></div>
                                 </td>
                                 <td>
-                                    <div class="small text-dark fw-medium" style="max-width: 320px; line-height: 1.4;">
+                                    <div class="small text-dark fw-medium" style="max-width: 300px; line-height: 1.4;">
                                         <?= nl2br(htmlspecialchars($p['isi_pengaduan'])); ?>
                                     </div>
                                     <?php if(!empty($p['tanggapan'])): ?>
@@ -95,59 +101,18 @@
                                 </td>
                                 <td class="text-center" style="white-space: nowrap;">
                                     <!-- Button Modal Tindak Lanjut -->
-                                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalTanggapan<?= $p['id']; ?>">
+                                    <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 shadow-none" data-bs-toggle="modal" data-bs-target="#modalTanggapan<?= $p['id']; ?>">
                                         <i class="fas fa-reply me-1"></i> Respon
                                     </button>
                                     <a href="<?= base_url('adminpengaduan/delete/' . $p['id']); ?>" class="btn btn-sm btn-outline-danger rounded-circle p-1 ms-1" style="width:30px;height:30px;" onclick="return confirm('Hapus pengaduan ini?');" title="Hapus">
                                         <i class="fas fa-trash"></i>
                                     </a>
-
-                                    <!-- Modal Tanggapan -->
-                                    <div class="modal fade" id="modalTanggapan<?= $p['id']; ?>" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog text-start">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title fw-bold">Tindak Lanjut Pengaduan #<?= $p['id']; ?></h5>
-                                                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
-                                                </div>
-                                                <form action="<?= base_url('adminpengaduan/update_status/' . $p['id']); ?>" method="post">
-                                                    <div class="modal-body">
-                                                        <div class="mb-3">
-                                                            <label class="form-label small fw-bold">Pelapor</label>
-                                                            <input type="text" class="form-control" value="<?= htmlspecialchars($p['nama_pelapor']); ?> (<?= $p['no_hp']; ?>)" readonly>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label small fw-bold">Isi Aduan</label>
-                                                            <div class="p-2 rounded bg-light border small text-muted"><?= htmlspecialchars($p['isi_pengaduan']); ?></div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label small fw-bold">Update Status</label>
-                                                            <select name="status" class="form-select" required>
-                                                                <option value="Menunggu" <?= ($p['status'] == 'Menunggu') ? 'selected' : ''; ?>>Menunggu</option>
-                                                                <option value="Diproses" <?= ($p['status'] == 'Diproses') ? 'selected' : ''; ?>>Diproses</option>
-                                                                <option value="Selesai" <?= ($p['status'] == 'Selesai') ? 'selected' : ''; ?>>Selesai</option>
-                                                                <option value="Ditolak" <?= ($p['status'] == 'Ditolak') ? 'selected' : ''; ?>>Ditolak</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label small fw-bold">Tanggapan / Catatan Tindak Lanjut</label>
-                                                            <textarea name="tanggapan" class="form-control" rows="3" placeholder="Tuliskan tindakan yang telah diambil atau klarifikasi..."><?= htmlspecialchars($p['tanggapan'] ?? ''); ?></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Tutup</button>
-                                                        <button type="submit" class="btn btn-primary rounded-pill px-4">Simpan Perubahan</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="7" class="text-center py-5 text-muted">
+                                <td colspan="8" class="text-center py-5 text-muted">
                                     <i class="fas fa-clipboard-check fs-1 opacity-25 mb-3 d-block"></i>
                                     Belum ada pengaduan masyarakat yang masuk.
                                 </td>
@@ -159,6 +124,51 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Tanggapan (Ditempatkan di luar table-responsive agar tidak bug backdrop / z-index) -->
+<?php if(!empty($pengaduan)): ?>
+    <?php foreach($pengaduan as $p): ?>
+    <div class="modal fade" id="modalTanggapan<?= $p['id']; ?>" tabindex="-1" aria-labelledby="modalTanggapanLabel<?= $p['id']; ?>" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered text-start">
+            <div class="modal-content border-0 shadow-lg" style="border-radius:18px;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="modalTanggapanLabel<?= $p['id']; ?>">Tindak Lanjut Pengaduan #<?= $p['id']; ?></h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="<?= base_url('adminpengaduan/update_status/' . $p['id']); ?>" method="post">
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Pelapor</label>
+                            <input type="text" class="form-control" value="<?= htmlspecialchars($p['nama_pelapor']); ?> (<?= $p['no_hp']; ?>)" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Isi Aduan</label>
+                            <div class="p-3 rounded-3 bg-light border small text-muted lh-base"><?= htmlspecialchars($p['isi_pengaduan']); ?></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Update Status <span class="text-danger">*</span></label>
+                            <select name="status" class="form-select" required>
+                                <option value="Menunggu" <?= ($p['status'] == 'Menunggu') ? 'selected' : ''; ?>>Menunggu</option>
+                                <option value="Diproses" <?= ($p['status'] == 'Diproses') ? 'selected' : ''; ?>>Diproses</option>
+                                <option value="Selesai" <?= ($p['status'] == 'Selesai') ? 'selected' : ''; ?>>Selesai</option>
+                                <option value="Ditolak" <?= ($p['status'] == 'Ditolak') ? 'selected' : ''; ?>>Ditolak</option>
+                            </select>
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label small fw-bold">Tanggapan / Catatan Tindak Lanjut</label>
+                            <textarea name="tanggapan" class="form-control" rows="3" placeholder="Tuliskan tindakan yang telah diambil atau klarifikasi..."><?= htmlspecialchars($p['tanggapan'] ?? ''); ?></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+<?php endif; ?>
 
 <script>
 document.getElementById('searchPengaduan').addEventListener('keyup', function() {

@@ -146,11 +146,15 @@
                                     </tr>
                                     <tr style="border-top:1px solid #f1f5f9;">
                                         <td class="text-muted py-2" style="font-size:.8rem;">NIK</td>
-                                        <td class="fw-bold py-2"><code><?= $p['nik']; ?></code></td>
+                                        <td class="fw-bold py-2"><span class="font-monospace" style="color: #000000 !important;"><?= $p['nik']; ?></span></td>
                                     </tr>
                                     <tr style="border-top:1px solid #f1f5f9;">
                                         <td class="text-muted py-2" style="font-size:.8rem;">Nomor HP / WA</td>
                                         <td class="fw-bold py-2"><?= $p['no_hp']; ?></td>
+                                    </tr>
+                                    <tr style="border-top:1px solid #f1f5f9;">
+                                        <td class="text-muted py-2" style="font-size:.8rem;">Tanggal Pengajuan</td>
+                                        <td class="fw-semibold py-2 text-dark"><?= tgl_indo($p['created_at']); ?></td>
                                     </tr>
                                     <tr style="border-top:1px solid #f1f5f9;">
                                         <td class="text-muted py-2" style="font-size:.8rem;">Keterangan</td>
@@ -191,7 +195,7 @@
                                 <div class="ms-2">
                                     <div class="d-flex justify-content-between align-items-center mb-0.5">
                                         <div class="fw-bold text-dark" style="font-size:.85rem;"><?= $p['status']; ?></div>
-                                        <div class="text-muted" style="font-size:.65rem;"><i class="far fa-clock me-1"></i><?= date('d M Y H.i', strtotime($p['created_at'])); ?></div>
+                                        <div class="text-muted" style="font-size:.65rem;"><i class="far fa-clock me-1"></i><?= tgl_indo($p['created_at']); ?></div>
                                     </div>
                                     <div class="text-muted" style="font-size:.78rem; line-height: 1.4;"><?= $p['keterangan'] ?: 'Status telah diperbarui oleh sistem.'; ?></div>
                                 </div>
@@ -203,7 +207,7 @@
                                 <div class="ms-2">
                                     <div class="d-flex justify-content-between align-items-center mb-0.5">
                                         <div class="fw-bold text-dark" style="font-size:.85rem;">Diajukan</div>
-                                        <div class="text-muted" style="font-size:.65rem;"><i class="far fa-clock me-1"></i><?= date('d M Y H.i', strtotime($p['created_at'])); ?></div>
+                                        <div class="text-muted" style="font-size:.65rem;"><i class="far fa-clock me-1"></i><?= tgl_indo($p['created_at']); ?></div>
                                     </div>
                                     <div class="text-muted" style="font-size:.78rem; line-height: 1.4;">Usulan UHC berhasil dikirim oleh pengguna.</div>
                                 </div>

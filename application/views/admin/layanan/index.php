@@ -69,8 +69,12 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">FontAwesome Icon Class <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="icon" value="<?= $l['icon']; ?>" required>
-                        <div class="form-text"><i class="fas fa-circle-info me-1"></i>Contoh: <code>fas fa-stethoscope</code> — cek di <a href="https://fontawesome.com/icons" target="_blank">fontawesome.com</a></div>
+                        <div class="d-flex align-items-center gap-1 mb-2">
+                            <input type="text" class="form-control" id="iconInputEdit<?= $l['id']; ?>" name="icon" value="<?= $l['icon']; ?>" required placeholder="Ketik atau pilih icon di bawah">
+                            <div class="icon-preview-box" id="iconPreviewEdit<?= $l['id']; ?>"><i class="<?= $l['icon']; ?>"></i></div>
+                        </div>
+                        <div class="icon-picker-grid" id="iconPickerEdit<?= $l['id']; ?>"></div>
+                        <div class="form-text mt-1"><i class="fas fa-circle-info me-1"></i>Pilih cepat di atas atau ketik class kustom. Cari lebih banyak di <a href="https://fontawesome.com/icons" target="_blank">fontawesome.com</a></div>
                     </div>
                     <div class="mb-0">
                         <label class="form-label">Deskripsi <span class="text-danger">*</span></label>
@@ -103,8 +107,12 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">FontAwesome Icon Class <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="icon" value="fas fa-stethoscope" required>
-                        <div class="form-text"><i class="fas fa-circle-info me-1"></i>Contoh: <code>fas fa-stethoscope</code> — cek di <a href="https://fontawesome.com/icons" target="_blank">fontawesome.com</a></div>
+                        <div class="d-flex align-items-center gap-1 mb-2">
+                            <input type="text" class="form-control" id="iconInputTambah" name="icon" value="fas fa-stethoscope" required placeholder="Ketik atau pilih icon di bawah">
+                            <div class="icon-preview-box" id="iconPreviewTambah"><i class="fas fa-stethoscope"></i></div>
+                        </div>
+                        <div class="icon-picker-grid" id="iconPickerTambah"></div>
+                        <div class="form-text mt-1"><i class="fas fa-circle-info me-1"></i>Pilih cepat di atas atau ketik class kustom. Cari lebih banyak di <a href="https://fontawesome.com/icons" target="_blank">fontawesome.com</a></div>
                     </div>
                     <div class="mb-0">
                         <label class="form-label">Deskripsi <span class="text-danger">*</span></label>
@@ -119,3 +127,83 @@
         </div>
     </div>
 </div>
+
+<!-- ===== ICON PICKER SCRIPT & STYLES ===== -->
+<style>
+.icon-picker-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.icon-pill {
+    border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 6px 10px;
+    cursor: pointer; font-size: .78rem; background: #f8fafc;
+    display: flex; align-items: center; gap: 6px;
+    transition: all .15s; white-space: nowrap; color: #334155;
+}
+.icon-pill:hover { border-color: #0d9488; background: #f0fdfa; color: #0d9488; }
+.icon-pill.selected { border-color: #0d9488; background: #0d9488; color: #fff; }
+.icon-preview-box {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: rgba(13,148,136,.1); display: flex; align-items: center;
+    justify-content: center; color: #0d9488; font-size: 1.2rem; flex-shrink: 0;
+    border: 1.5px solid #ccfbf1; margin-left: 8px;
+}
+</style>
+
+<script>
+var ICON_PRESETS = [
+    { label: 'Stetoskop', cls: 'fas fa-stethoscope' },
+    { label: 'Gigi', cls: 'fas fa-tooth' },
+    { label: 'Ibu & Anak', cls: 'fas fa-baby' },
+    { label: 'Obat', cls: 'fas fa-pills' },
+    { label: 'Jantung', cls: 'fas fa-heart-pulse' },
+    { label: 'Lab', cls: 'fas fa-vials' },
+    { label: 'Mata', cls: 'fas fa-eye' },
+    { label: 'Tulang', cls: 'fas fa-bone' },
+    { label: 'Paru', cls: 'fas fa-lungs' },
+    { label: 'Bedah', cls: 'fas fa-scalpel' },
+    { label: 'Ambulans', cls: 'fas fa-truck-medical' },
+    { label: 'Klinik', cls: 'fas fa-hospital' },
+    { label: 'Vaksin', cls: 'fas fa-syringe' },
+    { label: 'Rekam Medis', cls: 'fas fa-file-medical' },
+    { label: 'Konsultasi', cls: 'fas fa-comment-medical' },
+    { label: 'Gizi', cls: 'fas fa-apple-whole' }
+];
+
+function buildIconPicker(containerId, inputId, previewId) {
+    var container = document.getElementById(containerId);
+    var input = document.getElementById(inputId);
+    if (!container || !input) return;
+
+    ICON_PRESETS.forEach(function(ico) {
+        var pill = document.createElement('span');
+        pill.className = 'icon-pill' + (input.value === ico.cls ? ' selected' : '');
+        pill.innerHTML = '<i class="' + ico.cls + '"></i>' + ico.label;
+        pill.addEventListener('click', function() {
+            input.value = ico.cls;
+            updatePreview(previewId, ico.cls);
+            container.querySelectorAll('.icon-pill').forEach(function(p) { p.classList.remove('selected'); });
+            pill.classList.add('selected');
+        });
+        container.appendChild(pill);
+    });
+
+    input.addEventListener('input', function() {
+        updatePreview(previewId, input.value);
+        container.querySelectorAll('.icon-pill').forEach(function(p) { p.classList.remove('selected'); });
+    });
+}
+
+function updatePreview(previewId, cls) {
+    var box = document.getElementById(previewId);
+    if (!box) return;
+    box.innerHTML = '<i class="' + cls + '"></i>';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    buildIconPicker('iconPickerTambah', 'iconInputTambah', 'iconPreviewTambah');
+    updatePreview('iconPreviewTambah', document.getElementById('iconInputTambah').value);
+
+    <?php foreach($layanan as $l): ?>
+    buildIconPicker('iconPickerEdit<?= $l['id']; ?>', 'iconInputEdit<?= $l['id']; ?>', 'iconPreviewEdit<?= $l['id']; ?>');
+    updatePreview('iconPreviewEdit<?= $l['id']; ?>', document.getElementById('iconInputEdit<?= $l['id']; ?>').value);
+    <?php endforeach; ?>
+});
+</script>

@@ -9,6 +9,17 @@ class Deteksi extends CI_Controller {
     }
 
     public function stunting() {
+        // Wajib login untuk mengakses layanan deteksi stunting
+        if (!$this->session->userdata('user_logged_in')) {
+            $this->session->set_flashdata('error', 'Silakan masuk / login terlebih dahulu untuk mengakses layanan Deteksi Stunting.');
+            redirect('auth/login');
+            return;
+        }
+
+        $user_id = (int)$this->session->userdata('user_id');
+        $this->load->model('User_model');
+        $data['user'] = $this->User_model->get_by_id($user_id);
+
         $data['title'] = 'Deteksi Dini Stunting (WHO Standard)';
         $data['profil'] = $this->Profil_model->get_profil();
         
@@ -20,27 +31,30 @@ class Deteksi extends CI_Controller {
             $umur = (int)$this->input->post('umur');
             $tinggi = (float)$this->input->post('tinggi');
             $berat = $this->input->post('berat') ? (float)$this->input->post('berat') : null;
-            $nama_anak = $this->input->post('nama_anak', true);
-            $nama_ortu = $this->input->post('nama_ortu', true);
+            $nama_anak = trim($this->input->post('nama_anak', true));
+            $nama_ortu = trim($this->input->post('nama_ortu', true));
+            $alamat = trim($this->input->post('alamat', true));
+            $no_hp = trim($this->input->post('no_hp', true));
             
             $data['hasil'] = $this->_hitung_stunting($gender, $umur, $tinggi);
             $data['input'] = [
-                'gender' => $gender, 
-                'umur' => $umur, 
-                'tinggi' => $tinggi,
-                'berat' => $berat,
+                'gender'    => $gender, 
+                'umur'      => $umur, 
+                'tinggi'    => $tinggi,
+                'berat'     => $berat,
                 'nama_anak' => $nama_anak,
-                'nama_ortu' => $nama_ortu
+                'nama_ortu' => $nama_ortu,
+                'alamat'    => $alamat,
+                'no_hp'     => $no_hp
             ];
 
-            // Poin 6: Hubungkan hasil pengecekan ke akun pengguna yang sedang login
-            $user_id = $this->session->userdata('user_id') ? (int)$this->session->userdata('user_id') : null;
-
-            // Simpan ke database
+            // Simpan ke database terhubung ke user_id
             $db_data = [
                 'user_id'      => $user_id,
                 'nama_anak'    => $nama_anak,
                 'nama_ortu'    => $nama_ortu,
+                'alamat'       => $alamat,
+                'no_hp'        => $no_hp,
                 'gender'       => $gender,
                 'umur_bulan'   => $umur,
                 'tinggi_badan' => $tinggi,
@@ -51,9 +65,7 @@ class Deteksi extends CI_Controller {
             ];
             $this->db->insert('stunting_results', $db_data);
 
-            if ($user_id) {
-                $this->session->set_flashdata('success', 'Hasil deteksi stunting berhasil disimpan ke riwayat akun Anda.');
-            }
+            $this->session->set_flashdata('success', 'Hasil deteksi stunting berhasil disimpan ke riwayat akun Anda.');
         }
 
         $this->load->view('templates/header', $data);

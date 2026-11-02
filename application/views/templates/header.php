@@ -168,6 +168,38 @@
             background: rgba(13,148,136,.08);
         }
 
+        /* ===== DROPDOWN STYLING & ACTIVE STATES ===== */
+        .dropdown-menu {
+            border: 1px solid rgba(226,232,240,0.8) !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+        }
+        .dropdown-item {
+            font-size: var(--fs-body);
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+        .dropdown-item:hover, 
+        .dropdown-item:focus {
+            background-color: rgba(13,148,136,.08) !important;
+            color: var(--primary) !important;
+        }
+        .dropdown-item.active, 
+        .dropdown-item:active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+            color: #ffffff !important;
+            font-weight: 600;
+        }
+        .dropdown-item.active:hover {
+            color: #ffffff !important;
+        }
+        .dropdown-header {
+            font-size: 0.72rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.5px !important;
+            color: #64748b !important;
+            padding: 0.4rem 0.85rem !important;
+        }
+
         /* ===== DROPDOWN SUBMENU SUPPORT ===== */
         .dropdown-submenu {
             position: relative;
@@ -470,11 +502,12 @@
                     <a class="nav-link <?= ($this->uri->segment(1) == 'layanan') ? 'active' : ''; ?>" href="<?= base_url('layanan'); ?>">Layanan</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle <?= in_array($this->uri->segment(1), ['layananonline','uhc','reaktivasi']) && !in_array($this->uri->segment(2), ['riwayat','detail']) ? 'active' : ''; ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle <?= in_array($this->uri->segment(1), ['layananonline','uhc','reaktivasi','deteksi']) && !in_array($this->uri->segment(2), ['riwayat','detail']) ? 'active' : ''; ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Layanan Digital
                     </a>
                     <ul class="dropdown-menu border-0 shadow-lg" style="border-radius:14px; padding:.4rem; font-size:var(--fs-body);">
                         <li><a class="dropdown-item rounded-3 py-2 px-3 <?= ($this->uri->segment(1) == 'layananonline' && $this->uri->segment(2) == '') ? 'active' : ''; ?>" href="<?= base_url('layananonline'); ?>">Semua Layanan Digital</a></li>
+                        <li><a class="dropdown-item rounded-3 py-2 px-3 <?= ($this->uri->segment(1) == 'deteksi' && $this->uri->segment(2) == 'stunting') ? 'active' : ''; ?>" href="<?= base_url('deteksi/stunting'); ?>">Deteksi Stunting</a></li>
                         <li><a class="dropdown-item rounded-3 py-2 px-3 <?= ($this->uri->segment(1) == 'uhc' && $this->uri->segment(2) != 'riwayat') ? 'active' : ''; ?>" href="<?= base_url('uhc'); ?>">Pengajuan UHC</a></li>
                         <li><a class="dropdown-item rounded-3 py-2 px-3 <?= ($this->uri->segment(1) == 'reaktivasi' && $this->uri->segment(2) != 'riwayat') ? 'active' : ''; ?>" href="<?= base_url('reaktivasi'); ?>">Reaktivasi Dinsos</a></li>
                         <li><a class="dropdown-item rounded-3 py-2 px-3 <?= ($this->uri->segment(1) == 'layananonline' && $this->uri->segment(2) == 'reminder') ? 'active' : ''; ?>" href="<?= base_url('layananonline/reminder'); ?>">Reminder Jadwal</a></li>
@@ -526,30 +559,11 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link <?= ($this->uri->segment(1) == 'deteksi') ? 'active' : ''; ?>" href="<?= base_url('deteksi/stunting'); ?>">Deteksi Stunting</a>
-                </li>
-
-                <li class="nav-item">
                     <a class="nav-link <?= ($this->uri->segment(1) == 'artikel') ? 'active' : ''; ?>" href="<?= base_url('artikel'); ?>">Artikel</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?= ($this->uri->segment(1) == 'tenaga') ? 'active' : ''; ?>" href="<?= base_url('tenaga'); ?>">Tenaga Medis</a>
                 </li>
-
-                <!-- Poin 2: NAVBAR RIWAYAT UHC & REAKTIVASI (HANYA MUNCUL JIKA SUDAH LOGIN) -->
-                <?php if($this->session->userdata('user_logged_in')): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle <?= in_array($this->uri->segment(1), ['uhc','reaktivasi']) && in_array($this->uri->segment(2), ['riwayat','detail']) ? 'active' : ''; ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:var(--primary)!important; font-weight:700;">
-                        Riwayat UHC &amp; Reaktivasi
-                    </a>
-                    <ul class="dropdown-menu border-0 shadow-lg" style="border-radius:14px; padding:.4rem; font-size:var(--fs-body);">
-                        <li><a class="dropdown-item rounded-3 py-2 px-3" href="<?= base_url('uhc/riwayat'); ?>">Riwayat Pengajuan UHC</a></li>
-                        <li><a class="dropdown-item rounded-3 py-2 px-3" href="<?= base_url('reaktivasi/riwayat'); ?>">Riwayat Reaktivasi Dinsos</a></li>
-                        <li><hr class="dropdown-divider my-1"></li>
-                        <li><a class="dropdown-item rounded-3 py-2 px-3" href="<?= base_url('deteksi/riwayat'); ?>">Riwayat Deteksi Stunting</a></li>
-                    </ul>
-                </li>
-                <?php endif; ?>
 
                 <?php if($this->session->userdata('admin_logged_in')): ?>
                 <li class="nav-item dropdown ms-2">
@@ -565,14 +579,18 @@
                 </li>
                 <?php elseif($this->session->userdata('user_logged_in')): ?>
                 <li class="nav-item dropdown ms-2">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" style="background:rgba(13,148,136,.1);border-radius:12px;">
-                        <?= $this->session->userdata('user_nama'); ?>
+                    <a class="nav-link dropdown-toggle <?= in_array($this->uri->segment(1), ['uhc','reaktivasi','deteksi']) && in_array($this->uri->segment(2), ['riwayat','detail']) || ($this->uri->segment(1) == 'auth' && $this->uri->segment(2) == 'profil') ? 'active' : ''; ?>" href="#" role="button" data-bs-toggle="dropdown" style="background:rgba(13,148,136,.1);border-radius:12px;font-weight:600;color:var(--primary)!important;">
+                        <i class="fas fa-circle-user me-1"></i><?= $this->session->userdata('user_nama'); ?>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg" style="border-radius:14px; padding:.4rem; font-size:var(--fs-body);">
-                        <li><a class="dropdown-item rounded-3 py-2 px-3" href="<?= base_url('auth/profil'); ?>">Profil &amp; Berkas Saya</a></li>
-                        <li><a class="dropdown-item rounded-3 py-2 px-3" href="<?= base_url('deteksi/riwayat'); ?>">Riwayat Deteksi Stunting</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg" style="border-radius:14px; padding:.4rem; font-size:var(--fs-body); min-width:230px;">
+                        <li><a class="dropdown-item rounded-3 py-2 px-3 fw-semibold text-primary" href="<?= base_url('auth/profil'); ?>"><i class="fas fa-user me-2"></i>Profil &amp; Berkas Saya</a></li>
                         <li><hr class="dropdown-divider my-1"></li>
-                        <li><a class="dropdown-item rounded-3 py-2 px-3 text-danger" href="<?= base_url('auth/logout_user'); ?>">Logout</a></li>
+                        <li class="dropdown-header text-uppercase text-muted" style="font-size:0.7rem; letter-spacing:0.5px;">Riwayat Layanan Saya</li>
+                        <li><a class="dropdown-item rounded-3 py-2 px-3" href="<?= base_url('uhc/riwayat'); ?>"><i class="fas fa-hand-holding-medical me-2 text-muted"></i>Riwayat Pengajuan UHC</a></li>
+                        <li><a class="dropdown-item rounded-3 py-2 px-3" href="<?= base_url('reaktivasi/riwayat'); ?>"><i class="fas fa-rotate me-2 text-muted"></i>Riwayat Reaktivasi Dinsos</a></li>
+                        <li><a class="dropdown-item rounded-3 py-2 px-3" href="<?= base_url('deteksi/riwayat'); ?>"><i class="fas fa-baby me-2 text-muted"></i>Riwayat Deteksi Stunting</a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li><a class="dropdown-item rounded-3 py-2 px-3 text-danger" href="<?= base_url('auth/logout_user'); ?>"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
                     </ul>
                 </li>
                 <?php else: ?>
@@ -609,6 +627,9 @@
             </li>
             <li class="nav-item ps-2">
                 <a class="nav-link <?= ($this->uri->segment(1) == 'layananonline' && $this->uri->segment(2) == '') ? 'active' : ''; ?>" href="<?= base_url('layananonline'); ?>">Portal Layanan Digital</a>
+            </li>
+            <li class="nav-item ps-2">
+                <a class="nav-link <?= ($this->uri->segment(1) == 'deteksi' && $this->uri->segment(2) == 'stunting') ? 'active' : ''; ?>" href="<?= base_url('deteksi/stunting'); ?>">Deteksi Stunting</a>
             </li>
             <li class="nav-item ps-2">
                 <a class="nav-link <?= ($this->uri->segment(1) == 'uhc' && $this->uri->segment(2) != 'riwayat') ? 'active' : ''; ?>" href="<?= base_url('uhc'); ?>">Pengajuan UHC</a>
@@ -649,22 +670,21 @@
                 <a class="nav-link <?= ($this->uri->segment(1) == 'pengaduan') ? 'active' : ''; ?>" href="<?= base_url('pengaduan'); ?>">Pengaduan</a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link <?= ($this->uri->segment(1) == 'deteksi') ? 'active' : ''; ?>" href="<?= base_url('deteksi/stunting'); ?>">Deteksi Stunting</a>
-            </li>
-
             <?php if($this->session->userdata('user_logged_in')): ?>
             <li class="nav-item">
-                <span class="text-primary fw-bold text-uppercase px-3 py-1 d-block" style="font-size:var(--fs-support);">Riwayat Akun</span>
+                <span class="text-primary fw-bold text-uppercase px-3 py-1 d-block" style="font-size:var(--fs-support);">Akun &amp; Riwayat</span>
             </li>
             <li class="nav-item ps-2">
-                <a class="nav-link" href="<?= base_url('uhc/riwayat'); ?>">Riwayat UHC</a>
+                <a class="nav-link <?= ($this->uri->segment(1) == 'auth' && $this->uri->segment(2) == 'profil') ? 'active' : ''; ?>" href="<?= base_url('auth/profil'); ?>">Profil &amp; Berkas Saya</a>
             </li>
             <li class="nav-item ps-2">
-                <a class="nav-link" href="<?= base_url('reaktivasi/riwayat'); ?>">Riwayat Reaktivasi</a>
+                <a class="nav-link <?= ($this->uri->segment(1) == 'uhc' && $this->uri->segment(2) == 'riwayat') ? 'active' : ''; ?>" href="<?= base_url('uhc/riwayat'); ?>">Riwayat UHC</a>
             </li>
             <li class="nav-item ps-2">
-                <a class="nav-link" href="<?= base_url('deteksi/riwayat'); ?>">Riwayat Deteksi Stunting</a>
+                <a class="nav-link <?= ($this->uri->segment(1) == 'reaktivasi' && $this->uri->segment(2) == 'riwayat') ? 'active' : ''; ?>" href="<?= base_url('reaktivasi/riwayat'); ?>">Riwayat Reaktivasi</a>
+            </li>
+            <li class="nav-item ps-2">
+                <a class="nav-link <?= ($this->uri->segment(1) == 'deteksi' && $this->uri->segment(2) == 'riwayat') ? 'active' : ''; ?>" href="<?= base_url('deteksi/riwayat'); ?>">Riwayat Deteksi Stunting</a>
             </li>
             <?php endif; ?>
 
@@ -701,49 +721,58 @@
     </div>
 </div>
 
-<!-- ===== GLOBAL TOAST NOTIFICATION CONTAINER (POJOK KANAN ATAS - REVISI POIN 8) ===== -->
+<!-- ===== GLOBAL TOAST NOTIFICATION CONTAINER (POJOK KANAN ATAS - SOFT THEME) ===== -->
 <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;" id="globalToastContainer">
     <?php if($this->session->flashdata('success')): ?>
-    <div class="toast show align-items-center text-white bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" style="border-radius:12px; font-size:var(--fs-body);">
-        <div class="d-flex">
-            <div class="toast-body d-flex align-items-center gap-2">
-                <i class="fas fa-check-circle fs-5"></i>
+    <div class="toast show align-items-center shadow-lg border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true" 
+         style="border-radius:16px; background:#f0fdf4 !important; border:1px solid #bbf7d0 !important; color:#14532d !important; min-width:320px;">
+        <div class="d-flex p-1">
+            <div class="toast-body d-flex align-items-center gap-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:36px; height:36px; background:#dcfce7; color:#16a34a;">
+                    <i class="fas fa-check-circle fs-5"></i>
+                </div>
                 <div>
-                    <strong class="d-block" style="font-size:var(--fs-title);">Berhasil</strong>
-                    <span><?= $this->session->flashdata('success'); ?></span>
+                    <strong class="d-block" style="font-size:0.88rem; font-family:'Outfit',sans-serif; color:#14532d;">Berhasil</strong>
+                    <span class="small" style="color:#15803d; line-height:1.4;"><?= $this->session->flashdata('success'); ?></span>
                 </div>
             </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close" style="font-size:0.75rem;"></button>
         </div>
     </div>
     <?php endif; ?>
 
     <?php if($this->session->flashdata('error')): ?>
-    <div class="toast show align-items-center text-white bg-danger border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" style="border-radius:12px; font-size:var(--fs-body);">
-        <div class="d-flex">
-            <div class="toast-body d-flex align-items-center gap-2">
-                <i class="fas fa-exclamation-circle fs-5"></i>
+    <div class="toast show align-items-center shadow-lg border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true" 
+         style="border-radius:16px; background:#fef2f2 !important; border:1px solid #fecaca !important; color:#7f1d1d !important; min-width:320px;">
+        <div class="d-flex p-1">
+            <div class="toast-body d-flex align-items-center gap-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:36px; height:36px; background:#fee2e2; color:#dc2626;">
+                    <i class="fas fa-exclamation-circle fs-5"></i>
+                </div>
                 <div>
-                    <strong class="d-block" style="font-size:var(--fs-title);">Terjadi Kesalahan</strong>
-                    <span><?= $this->session->flashdata('error'); ?></span>
+                    <strong class="d-block" style="font-size:0.88rem; font-family:'Outfit',sans-serif; color:#7f1d1d;">Terjadi Kesalahan</strong>
+                    <span class="small" style="color:#b91c1c; line-height:1.4;"><?= $this->session->flashdata('error'); ?></span>
                 </div>
             </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close" style="font-size:0.75rem;"></button>
         </div>
     </div>
     <?php endif; ?>
 
     <?php if($this->session->flashdata('warning')): ?>
-    <div class="toast show align-items-center text-dark bg-warning border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" style="border-radius:12px; font-size:var(--fs-body);">
-        <div class="d-flex">
-            <div class="toast-body d-flex align-items-center gap-2">
-                <i class="fas fa-triangle-exclamation fs-5"></i>
+    <div class="toast show align-items-center shadow-lg border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true" 
+         style="border-radius:16px; background:#fffbeb !important; border:1px solid #fde68a !important; color:#78350f !important; min-width:320px;">
+        <div class="d-flex p-1">
+            <div class="toast-body d-flex align-items-center gap-3">
+                <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:36px; height:36px; background:#fef3c7; color:#d97706;">
+                    <i class="fas fa-triangle-exclamation fs-5"></i>
+                </div>
                 <div>
-                    <strong class="d-block" style="font-size:var(--fs-title);">Perhatian</strong>
-                    <span><?= $this->session->flashdata('warning'); ?></span>
+                    <strong class="d-block" style="font-size:0.88rem; font-family:'Outfit',sans-serif; color:#78350f;">Perhatian</strong>
+                    <span class="small" style="color:#b45309; line-height:1.4;"><?= $this->session->flashdata('warning'); ?></span>
                 </div>
             </div>
-            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close" style="font-size:0.75rem;"></button>
         </div>
     </div>
     <?php endif; ?>

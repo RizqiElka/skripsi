@@ -254,17 +254,22 @@
                             <label class="form-label small fw-bold">Lokasi / Ruang Layanan Terkait <span class="text-danger">*</span></label>
                             <select name="lokasi_layanan" class="form-select" required>
                                 <option value="">-- Pilih Ruang Layanan --</option>
-                                <option value="Loket Pendaftaran">Loket Pendaftaran</option>
-                                <option value="Poli Umum">Poli Umum</option>
-                                <option value="Poli Anak (MTBS)">Poli Anak (MTBS)</option>
-                                <option value="Poli Gigi & Mulut">Poli Gigi &amp; Mulut</option>
-                                <option value="Poli Ibu Hamil (KIA)">Poli Ibu Hamil (KIA)</option>
-                                <option value="Poli Imunisasi">Poli Imunisasi</option>
-                                <option value="Poli P2P">Poli P2P</option>
-                                <option value="Ruang Obat (Farmasi)">Ruang Obat (Farmasi)</option>
-                                <option value="Laboratorium">Laboratorium</option>
-                                <option value="Ruang Tindakan / IGD">Ruang Tindakan / IGD</option>
-                                <option value="Toilet / Parkir / Fasilitas Umum">Toilet / Parkir / Fasilitas Umum</option>
+                                <?php if(!empty($daftar_layanan)): ?>
+                                    <optgroup label="Poli &amp; Layanan Medis (Database)">
+                                        <?php foreach($daftar_layanan as $ly): ?>
+                                            <option value="<?= htmlspecialchars($ly['nama_layanan']); ?>" <?= set_select('lokasi_layanan', $ly['nama_layanan']); ?>>
+                                                <?= htmlspecialchars($ly['nama_layanan']); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </optgroup>
+                                <?php endif; ?>
+                                <optgroup label="Area &amp; Fasilitas Penunjang">
+                                    <option value="Loket Pendaftaran / Kasir" <?= set_select('lokasi_layanan', 'Loket Pendaftaran / Kasir'); ?>>Loket Pendaftaran / Kasir</option>
+                                    <option value="Ruang Obat (Farmasi)" <?= set_select('lokasi_layanan', 'Ruang Obat (Farmasi)'); ?>>Ruang Obat (Farmasi)</option>
+                                    <option value="Laboratorium" <?= set_select('lokasi_layanan', 'Laboratorium'); ?>>Laboratorium</option>
+                                    <option value="Ruang Tindakan / IGD" <?= set_select('lokasi_layanan', 'Ruang Tindakan / IGD'); ?>>Ruang Tindakan / IGD</option>
+                                    <option value="Toilet / Parkir / Fasilitas Umum" <?= set_select('lokasi_layanan', 'Toilet / Parkir / Fasilitas Umum'); ?>>Toilet / Parkir / Fasilitas Umum</option>
+                                </optgroup>
                             </select>
                             <?= form_error('lokasi_layanan', '<small class="text-danger">', '</small>'); ?>
                         </div>

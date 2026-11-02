@@ -11,8 +11,10 @@ class Pengaduan extends CI_Controller {
     }
 
     public function index() {
+        $this->load->model('Layanan_model');
         $data['title'] = 'Alur & Kanal Pengaduan Masyarakat - Puskesmas';
         $data['profil'] = $this->Profil_model->get_profil();
+        $data['daftar_layanan'] = $this->Layanan_model->get_all();
 
         $this->load->view('templates/header', $data);
         $this->load->view('pengaduan/index', $data);
@@ -39,8 +41,10 @@ class Pengaduan extends CI_Controller {
         ]);
 
         if ($this->form_validation->run() == FALSE) {
+            $this->load->model('Layanan_model');
             $data['title'] = 'Alur & Kanal Pengaduan Masyarakat - Puskesmas';
             $data['profil'] = $this->Profil_model->get_profil();
+            $data['daftar_layanan'] = $this->Layanan_model->get_all();
 
             $this->load->view('templates/header', $data);
             $this->load->view('pengaduan/index', $data);

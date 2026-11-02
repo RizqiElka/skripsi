@@ -10,8 +10,11 @@ class Reaktivasi_model extends CI_Model {
     }
 
     public function get_all() {
-        $this->db->order_by('created_at', 'DESC');
-        return $this->db->get($this->table)->result_array();
+        $this->db->select('pengajuan_reaktivasi.*, users.nama_lengkap as nama_user');
+        $this->db->from($this->table);
+        $this->db->join('users', 'users.id = pengajuan_reaktivasi.user_id', 'left');
+        $this->db->order_by('pengajuan_reaktivasi.created_at', 'DESC');
+        return $this->db->get()->result_array();
     }
 
     public function get_by_id($id) {

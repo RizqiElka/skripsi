@@ -9,53 +9,79 @@
 
             <div class="row g-4 justify-content-center">
                 <!-- Usulan UHC -->
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-4">
                     <a href="<?= base_url('uhc'); ?>" class="text-decoration-none">
-                        <div class="card border-0 shadow-sm p-4 text-center h-100 reveal reveal-bottom">
+                        <div class="card border-0 shadow-sm p-4 text-center h-100 reveal reveal-bottom card-hover-stat">
                             <div class="bg-success bg-opacity-10 p-3 rounded-4 mb-3 mx-auto" style="width: 72px; height: 72px; display: flex; align-items: center; justify-content: center;">
                                 <i class="fas fa-hand-holding-medical text-success fs-2"></i>
                             </div>
-                            <h5 class="fw-bold mb-2">Usulan UHC</h5>
+                            <h5 class="fw-bold mb-2 text-dark">Usulan UHC</h5>
                             <p class="text-muted small mb-0">Pengajuan jaminan kesehatan Universal Health Coverage secara online.</p>
                         </div>
                     </a>
                 </div>
 
                 <!-- Reaktivasi Dinsos -->
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-4">
                     <a href="<?= base_url('reaktivasi'); ?>" class="text-decoration-none">
-                        <div class="card border-0 shadow-sm p-4 text-center h-100 reveal reveal-bottom" style="--delay:1;">
+                        <div class="card border-0 shadow-sm p-4 text-center h-100 reveal reveal-bottom card-hover-stat" style="--delay:1;">
                             <div class="bg-warning bg-opacity-10 p-3 rounded-4 mb-3 mx-auto" style="width: 72px; height: 72px; display: flex; align-items: center; justify-content: center;">
                                 <i class="fas fa-rotate text-warning fs-2"></i>
                             </div>
-                            <h5 class="fw-bold mb-2">Reaktivasi Dinsos</h5>
-                            <p class="text-muted small mb-0">Pengajuan reaktivasi status bantuan Dinas Sosial secara online.</p>
+                            <h5 class="fw-bold mb-2 text-dark">Reaktivasi Dinsos</h5>
+                            <p class="text-muted small mb-0">Pengajuan reaktivasi status kepesertaan jaminan BPJS / Dinsos secara online.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Deteksi Stunting -->
+                <div class="col-md-6 col-lg-4">
+                    <a href="<?= base_url('deteksi/stunting'); ?>" class="text-decoration-none">
+                        <div class="card border-0 shadow-sm p-4 text-center h-100 reveal reveal-bottom card-hover-stat" style="--delay:2;">
+                            <div class="bg-danger bg-opacity-10 p-3 rounded-4 mb-3 mx-auto" style="width: 72px; height: 72px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-child text-danger fs-2"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2 text-dark">Deteksi Stunting</h5>
+                            <p class="text-muted small mb-0">Pengecekan mandiri status gizi &amp; riwayat tumbuh kembang anak.</p>
                         </div>
                     </a>
                 </div>
 
                 <!-- Reminder -->
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-4">
                     <a href="<?= base_url('layananonline/reminder'); ?>" class="text-decoration-none">
-                        <div class="card border-0 shadow-sm p-4 text-center h-100 reveal reveal-bottom" style="--delay:2;">
+                        <div class="card border-0 shadow-sm p-4 text-center h-100 reveal reveal-bottom card-hover-stat" style="--delay:3;">
                             <div class="bg-info bg-opacity-10 p-3 rounded-4 mb-3 mx-auto" style="width: 72px; height: 72px; display: flex; align-items: center; justify-content: center;">
                                 <i class="fas fa-clock-rotate-left text-info fs-2"></i>
                             </div>
-                            <h5 class="fw-bold mb-2">Reminder</h5>
-                            <p class="text-muted small mb-0">Atur pengingat otomatis untuk jadwal kontrol rutin Anda.</p>
+                            <h5 class="fw-bold mb-2 text-dark">Reminder</h5>
+                            <p class="text-muted small mb-0">Atur pengingat otomatis untuk jadwal kontrol rutin ke Puskesmas.</p>
                         </div>
                     </a>
                 </div>
 
                 <!-- Konsultasi -->
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-4">
                     <a href="<?= base_url('layananonline/konsultasi'); ?>" class="text-decoration-none">
-                        <div class="card border-0 shadow-sm p-4 text-center h-100 reveal reveal-bottom" style="--delay:3;">
+                        <div class="card border-0 shadow-sm p-4 text-center h-100 reveal reveal-bottom card-hover-stat" style="--delay:4;">
                             <div class="bg-primary bg-opacity-10 p-3 rounded-4 mb-3 mx-auto" style="width: 72px; height: 72px; display: flex; align-items: center; justify-content: center;">
                                 <i class="fas fa-comments-medical text-primary fs-2"></i>
                             </div>
-                            <h5 class="fw-bold mb-2">Konsultasi</h5>
-                            <p class="text-muted small mb-0">Sampaikan keluhan kesehatan Anda langsung ke tim medis.</p>
+                            <h5 class="fw-bold mb-2 text-dark">Konsultasi Online</h5>
+                            <p class="text-muted small mb-0">Sampaikan keluhan kesehatan Anda langsung kepada tim medis kami.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Riwayat Pengecekan Saya -->
+                <div class="col-md-6 col-lg-4">
+                    <a href="<?= base_url('deteksi/riwayat'); ?>" class="text-decoration-none">
+                        <div class="card border-0 shadow-sm p-4 text-center h-100 reveal reveal-bottom card-hover-stat" style="--delay:5; background: linear-gradient(135deg, #f0fdfa, #ffffff);">
+                            <div class="bg-teal bg-opacity-10 p-3 rounded-4 mb-3 mx-auto text-teal" style="width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; background: rgba(13,148,136,.12); color: var(--primary);">
+                                <i class="fas fa-chart-line fs-2"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2 text-dark">Riwayat Deteksi Stunting</h5>
+                            <p class="text-muted small mb-0">Pantau grafik pertumbuhan anak dan catatan riwayat pemeriksaan.</p>
                         </div>
                     </a>
                 </div>

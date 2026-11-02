@@ -13,9 +13,6 @@
             <a href="<?= base_url('deteksi/stunting'); ?>" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold" style="font-size:var(--fs-body);">
                 <i class="fas fa-plus me-1.5"></i> Cek Deteksi Baru
             </a>
-            <a href="<?= base_url('auth/profil'); ?>" class="btn btn-outline-secondary rounded-pill px-3 py-2 fw-semibold" style="font-size:var(--fs-body);">
-                Profil Saya
-            </a>
         </div>
     </div>
 

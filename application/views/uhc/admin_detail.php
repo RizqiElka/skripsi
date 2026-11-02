@@ -19,12 +19,12 @@
             <div class="admin-card p-4 mb-4">
                 <h5 class="fw-bold mb-4"><i class="fas fa-user-circle text-primary me-2"></i>Data Pemohon</h5>
                 <div class="row g-3">
-                    <div class="col-sm-4"><span class="text-muted small">NIK</span><div class="fw-bold"><?= $p['nik']; ?></div></div>
+                    <div class="col-sm-4"><span class="text-muted small">NIK</span><div class="fw-bold font-monospace" style="color: #000000 !important;"><?= $p['nik']; ?></div></div>
                     <div class="col-sm-4"><span class="text-muted small">Nama Lengkap</span><div class="fw-bold"><?= $p['nama_lengkap']; ?></div></div>
                     <div class="col-sm-4"><span class="text-muted small">No KK</span><div class="fw-bold"><?= $p['no_kk']; ?></div></div>
                     <div class="col-sm-4"><span class="text-muted small">No HP</span><div class="fw-bold"><?= $p['no_hp']; ?></div></div>
                     <div class="col-sm-4"><span class="text-muted small">Email</span><div class="fw-bold"><?= $p['email'] ?: '-'; ?></div></div>
-                    <div class="col-sm-4"><span class="text-muted small">Tanggal Pengajuan</span><div class="fw-bold"><?= date('d M Y H:i', strtotime($p['created_at'])); ?></div></div>
+                    <div class="col-sm-4"><span class="text-muted small">Tanggal Pengajuan</span><div class="fw-bold"><?= tgl_indo($p['created_at']); ?></div></div>
                     <div class="col-12"><span class="text-muted small">Alamat</span><div class="fw-bold"><?= $p['alamat']; ?></div></div>
                     <?php if(!empty($p['diagnosa'])): ?>
                     <div class="col-12"><span class="text-muted small">Diagnosa</span><div class="fw-bold"><?= $p['diagnosa']; ?></div></div>

@@ -408,9 +408,6 @@
 
     <!-- Navigasi Terkait -->
     <div class="d-flex justify-content-between align-items-center mt-5 pt-3">
-        <a href="<?= base_url('alurpelayanan'); ?>" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold" style="font-size:var(--fs-body);">
-            <i class="fas fa-arrow-left me-2"></i> Lihat Alur Pendaftaran Pasien
-        </a>
         <a href="<?= base_url('tarif'); ?>" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold" style="font-size:var(--fs-body);">
             Lihat Biaya &amp; Tarif <i class="fas fa-arrow-right ms-2"></i>
         </a>

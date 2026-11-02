@@ -19,9 +19,9 @@
             <div class="admin-card p-4 mb-4">
                 <h5 class="fw-bold mb-4"><i class="fas fa-user-circle text-primary me-2"></i>Data Pemohon</h5>
                 <div class="row g-3">
-                    <div class="col-sm-4"><span class="text-muted small">NIK</span><div class="fw-bold"><?= $p['nik']; ?></div></div>
+                    <div class="col-sm-4"><span class="text-muted small">NIK</span><div class="fw-bold font-monospace" style="color: #000000 !important;"><?= $p['nik']; ?></div></div>
                     <div class="col-sm-4"><span class="text-muted small">No HP</span><div class="fw-bold"><?= $p['no_hp']; ?></div></div>
-                    <div class="col-sm-4"><span class="text-muted small">Tanggal Pengajuan</span><div class="fw-bold"><?= date('d M Y H:i', strtotime($p['created_at'])); ?></div></div>
+                    <div class="col-sm-4"><span class="text-muted small">Tanggal Pengajuan</span><div class="fw-bold"><?= tgl_indo($p['created_at']); ?></div></div>
                     <?php if(!empty($p['keterangan'])): ?>
                     <div class="col-12"><span class="text-muted small">Keterangan Pemohon</span><div class="fw-bold"><?= $p['keterangan']; ?></div></div>
                     <?php endif; ?>

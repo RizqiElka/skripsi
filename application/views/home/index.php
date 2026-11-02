@@ -78,7 +78,7 @@
                 <div class="reveal">
                     <div class="d-flex align-items-center gap-3 mb-4">
                         <div style="width:42px;height:42px;background:rgba(2,132,199,.1);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-history text-secondary"></i></div>
-                        <h4 class="fw-bold mb-0" style="font-size:1.3rem;">Sejarah Singkat</h4>
+                        <h4 class="fw-bold mb-0" style="font-size:1.3rem;">Profil</h4>
                     </div>
                     <p class="text-muted lh-lg small mb-0"><?= nl2br($profil['sejarah']); ?></p>
                 </div>

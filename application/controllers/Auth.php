@@ -283,9 +283,77 @@ class Auth extends CI_Controller {
         $data['user'] = $this->User_model->get_by_id($user_id);
         $data['pengajuan_uhc'] = $this->Uhc_model->get_by_user($user_id);
         $data['pengajuan_reaktivasi'] = $this->Reaktivasi_model->get_by_user($user_id);
+        $data['riwayat_stunting'] = $this->db->where('user_id', $user_id)->order_by('created_at', 'DESC')->get('stunting_results')->result_array();
 
         $this->load->view('templates/header', $data);
         $this->load->view('auth/profil', $data);
         $this->load->view('templates/footer');
     }
+
+    // Update Profil & Foto User Masyarakat
+    public function update_profil() {
+        if (!$this->session->userdata('user_logged_in')) {
+            redirect('auth/login');
+        }
+
+        $user_id = $this->session->userdata('user_id');
+        $user = $this->User_model->get_by_id($user_id);
+
+        if (!$user) {
+            $this->session->set_flashdata('error', 'Data user tidak ditemukan.');
+            redirect('auth/profil');
+        }
+
+        $update_data = [
+            'nama_lengkap' => trim($this->input->post('nama_lengkap', true)),
+            'no_hp'        => trim($this->input->post('no_hp', true)),
+            'alamat'       => trim($this->input->post('alamat', true)),
+        ];
+
+        // Optional password change
+        $password = $this->input->post('password');
+        if (!empty($password)) {
+            if (strlen($password) < 5) {
+                $this->session->set_flashdata('error', 'Password minimal 5 karakter.');
+                redirect('auth/profil');
+            }
+            $update_data['password'] = md5($password);
+        }
+
+        // Handle foto upload
+        if (!empty($_FILES['foto']['name'])) {
+            $config['upload_path']   = './assets/uploads/avatars/';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif|webp';
+            $config['max_size']      = 2048; // 2MB
+            $config['file_name']     = 'user_' . $user_id . '_' . time();
+            $config['overwrite']     = true;
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('foto')) {
+                $upload_data = $this->upload->data();
+                $update_data['foto'] = $upload_data['file_name'];
+
+                // Hapus foto lama jika bukan default
+                if (!empty($user['foto']) && $user['foto'] != 'default_avatar.png') {
+                    $old_path = './assets/uploads/avatars/' . $user['foto'];
+                    if (file_exists($old_path)) {
+                        unlink($old_path);
+                    }
+                }
+            } else {
+                $this->session->set_flashdata('error', 'Gagal upload foto: ' . $this->upload->display_errors('', ''));
+                redirect('auth/profil');
+            }
+        }
+
+        $this->User_model->update($user_id, $update_data);
+
+        // Update session data
+        $this->session->set_userdata('user_nama', $update_data['nama_lengkap']);
+
+        $this->session->set_flashdata('success', 'Profil berhasil diperbarui!');
+        redirect('auth/profil');
+    }
 }
+

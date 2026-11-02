@@ -471,7 +471,7 @@
 
         <div class="sidebar-section-label mt-2">Master Data</div>
         <a href="<?= base_url('adminprofil'); ?>" class="sidebar-link <?= ($this->uri->segment(1) == 'adminprofil') ? 'active' : ''; ?>">
-            <span class="icon"><i class="fas fa-building-medical"></i></span> Profil Puskesmas
+            <span class="icon"><i class="fas fa-hospital"></i></span> Profil Puskesmas
         </a>
         <a href="<?= base_url('adminlayanan'); ?>" class="sidebar-link <?= ($this->uri->segment(1) == 'adminlayanan') ? 'active' : ''; ?>">
             <span class="icon"><i class="fas fa-briefcase-medical"></i></span> Kelola Layanan
@@ -544,14 +544,30 @@
                 <i class="fas fa-up-right-from-square"></i> Lihat Website
             </a>
             <div class="vr d-none d-sm-block" style="height:24px;opacity:.15;"></div>
-            <div class="d-flex align-items-center gap-2">
-                <div class="d-none d-sm-block text-end">
-                    <div class="topbar-user-name"><?= $this->session->userdata('nama_lengkap') ?: 'Administrator'; ?></div>
-                    <div class="topbar-user-role">Admin</div>
-                </div>
-                <div class="topbar-avatar">
-                    <i class="fas fa-user"></i>
-                </div>
+            <div class="dropdown">
+                <button class="btn p-0 border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background:transparent;">
+                    <div class="d-none d-sm-block text-end">
+                        <div class="topbar-user-name"><?= $this->session->userdata('nama_lengkap') ?: 'Administrator'; ?></div>
+                        <div class="topbar-user-role">Admin</div>
+                    </div>
+                    <?php
+                    $admin_id_topbar = $this->session->userdata('admin_id');
+                    $admin_row_topbar = $admin_id_topbar ? $this->db->get_where('admin', ['id' => $admin_id_topbar])->row_array() : [];
+                    $admin_foto_topbar = (!empty($admin_row_topbar['foto']) && $admin_row_topbar['foto'] != 'default_avatar.png' && file_exists('./assets/uploads/avatars/' . $admin_row_topbar['foto'])) ? base_url('assets/uploads/avatars/' . $admin_row_topbar['foto']) : '';
+                    ?>
+                    <div class="topbar-avatar" style="overflow:hidden; padding:0;">
+                        <?php if($admin_foto_topbar): ?>
+                            <img src="<?= $admin_foto_topbar; ?>" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" alt="Avatar">
+                        <?php else: ?>
+                            <i class="fas fa-user"></i>
+                        <?php endif; ?>
+                    </div>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-1" style="min-width:180px; font-size:.85rem;">
+                    <li><a class="dropdown-item rounded-2 py-2" href="<?= base_url('dashboard/profil'); ?>"><i class="fas fa-user-cog me-2 text-muted"></i>Profil Saya</a></li>
+                    <li><hr class="dropdown-divider my-1"></li>
+                    <li><a class="dropdown-item rounded-2 py-2 text-danger" href="<?= base_url('auth/logout'); ?>"><i class="fas fa-right-from-bracket me-2"></i>Keluar</a></li>
+                </ul>
             </div>
         </div>
     </header>
@@ -572,7 +588,7 @@
                     <span class="icon"><i class="fas fa-gauge-high"></i></span> Dashboard
                 </a>
                 <div class="sidebar-section-label mt-2">Master Data</div>
-                <a href="<?= base_url('adminprofil'); ?>" class="sidebar-link"><span class="icon"><i class="fas fa-building-medical"></i></span> Profil</a>
+                <a href="<?= base_url('adminprofil'); ?>" class="sidebar-link"><span class="icon"><i class="fas fa-hospital"></i></span> Profil</a>
                 <a href="<?= base_url('adminlayanan'); ?>" class="sidebar-link"><span class="icon"><i class="fas fa-briefcase-medical"></i></span> Layanan</a>
                 <a href="<?= base_url('adminfasilitas'); ?>" class="sidebar-link"><span class="icon"><i class="fas fa-bed-pulse"></i></span> Fasilitas</a>
                 <a href="<?= base_url('admintenaga'); ?>" class="sidebar-link"><span class="icon"><i class="fas fa-user-doctor"></i></span> Tenaga Medis</a>
@@ -598,30 +614,59 @@
     </div>
 
     <!-- Content area -->
-    <div class="admin-content">
-        <!-- Flash Messages -->
-        <?php if($this->session->flashdata('success')): ?>
-            <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-3 mb-4 animate-reveal" role="alert">
-                <div style="width:38px;height:38px;background:#dcfce7;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                    <i class="fas fa-check-circle text-success"></i>
+    <div class="admin-content position-relative">
+        <!-- ===== GLOBAL TOAST CONTAINER (POJOK KANAN ATAS - SOFT THEME) ===== -->
+        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 99999;" id="adminToastContainer">
+            <?php if($this->session->flashdata('success')): ?>
+                <div class="toast show align-items-center shadow-lg border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true" 
+                     style="border-radius:16px; background:#f0fdf4 !important; border:1px solid #bbf7d0 !important; color:#14532d !important; min-width:320px;">
+                    <div class="d-flex p-1">
+                        <div class="toast-body d-flex align-items-center gap-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:36px; height:36px; background:#dcfce7; color:#16a34a;">
+                                <i class="fas fa-check-circle fs-5"></i>
+                            </div>
+                            <div>
+                                <strong class="d-block" style="font-size:0.88rem; font-family:'Outfit',sans-serif; color:#14532d;">Berhasil!</strong>
+                                <span class="small" style="color:#15803d; line-height:1.4;"><?= $this->session->flashdata('success'); ?></span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close" style="font-size:0.75rem;"></button>
+                    </div>
                 </div>
-                <div>
-                    <div class="fw-bold">Berhasil!</div>
-                    <div class="small"><?= $this->session->flashdata('success'); ?></div>
+            <?php endif; ?>
+            <?php if($this->session->flashdata('error')): ?>
+                <div class="toast show align-items-center shadow-lg border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true" 
+                     style="border-radius:16px; background:#fef2f2 !important; border:1px solid #fecaca !important; color:#7f1d1d !important; min-width:320px;">
+                    <div class="d-flex p-1">
+                        <div class="toast-body d-flex align-items-center gap-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:36px; height:36px; background:#fee2e2; color:#dc2626;">
+                                <i class="fas fa-exclamation-circle fs-5"></i>
+                            </div>
+                            <div>
+                                <strong class="d-block" style="font-size:0.88rem; font-family:'Outfit',sans-serif; color:#7f1d1d;">Terjadi Kesalahan!</strong>
+                                <span class="small" style="color:#b91c1c; line-height:1.4;"><?= $this->session->flashdata('error'); ?></span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close" style="font-size:0.75rem;"></button>
+                    </div>
                 </div>
-                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endif; ?>
-        <?php if($this->session->flashdata('error')): ?>
-            <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-3 mb-4 animate-reveal" role="alert">
-                <div style="width:38px;height:38px;background:#fee2e2;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                    <i class="fas fa-exclamation-circle text-danger"></i>
+            <?php endif; ?>
+            <?php if($this->session->flashdata('warning')): ?>
+                <div class="toast show align-items-center shadow-lg border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true" 
+                     style="border-radius:16px; background:#fffbeb !important; border:1px solid #fde68a !important; color:#78350f !important; min-width:320px;">
+                    <div class="d-flex p-1">
+                        <div class="toast-body d-flex align-items-center gap-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:36px; height:36px; background:#fef3c7; color:#d97706;">
+                                <i class="fas fa-triangle-exclamation fs-5"></i>
+                            </div>
+                            <div>
+                                <strong class="d-block" style="font-size:0.88rem; font-family:'Outfit',sans-serif; color:#78350f;">Perhatian</strong>
+                                <span class="small" style="color:#b45309; line-height:1.4;"><?= $this->session->flashdata('warning'); ?></span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close" style="font-size:0.75rem;"></button>
+                    </div>
                 </div>
-                <div>
-                    <div class="fw-bold">Terjadi Kesalahan</div>
-                    <div class="small"><?= $this->session->flashdata('error'); ?></div>
-                </div>
-                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
 

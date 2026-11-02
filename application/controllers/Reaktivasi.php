@@ -180,4 +180,28 @@ class Reaktivasi extends CI_Controller {
         $this->session->set_flashdata('success', 'Status pengajuan berhasil diperbarui.');
         redirect('reaktivasi/admin_detail/' . $id);
     }
+
+    // Ekspor Excel Pengajuan Reaktivasi (Admin)
+    public function admin_export_excel() {
+        $this->_check_admin_login();
+        $pengajuan = $this->Reaktivasi_model->get_all();
+
+        $filename = 'Laporan_Pengajuan_Reaktivasi_' . date('Ymd_His') . '.xls';
+        header("Content-Type: application/vnd.ms-excel; charset=utf-8");
+        header("Content-Disposition: attachment; filename=$filename");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        $data['pengajuan'] = $pengajuan;
+        $this->load->view('reaktivasi/cetak_excel', $data);
+    }
+
+    // Ekspor PDF / Cetak Pengajuan Reaktivasi (Admin)
+    public function admin_export_pdf() {
+        $this->_check_admin_login();
+        $data['pengajuan'] = $this->Reaktivasi_model->get_all();
+        $data['title'] = 'Laporan Data Pengajuan Reaktivasi BPJS / Dinsos';
+        $data['profil'] = $this->Profil_model->get_profil();
+        $this->load->view('reaktivasi/cetak_pdf', $data);
+    }
 }

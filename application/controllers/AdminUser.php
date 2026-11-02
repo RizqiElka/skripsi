@@ -45,8 +45,28 @@ class AdminUser extends CI_Controller {
                 'no_hp'        => trim($this->input->post('no_hp', true)),
                 'alamat'       => trim($this->input->post('alamat', true)),
                 'password'     => md5($this->input->post('password')),
-                'role'         => $this->input->post('role', true) ?: 'pasien'
+                'role'         => $this->input->post('role', true) ?: 'pasien',
+                'foto'         => 'default_avatar.png'
             ];
+
+            // Handle Upload Foto jika ada
+            if (!empty($_FILES['foto']['name'])) {
+                $upload_path = './assets/uploads/avatars/';
+                if (!is_dir($upload_path)) {
+                    mkdir($upload_path, 0777, true);
+                }
+
+                $config['upload_path']   = $upload_path;
+                $config['allowed_types'] = 'jpg|jpeg|png|webp';
+                $config['max_size']      = 2048; // 2MB
+                $config['file_name']     = 'user_' . time() . '_' . rand(100, 999);
+
+                $this->load->library('upload', $config);
+                if ($this->upload->do_upload('foto')) {
+                    $upload_data = $this->upload->data();
+                    $data_insert['foto'] = $upload_data['file_name'];
+                }
+            }
 
             $this->User_model->insert($data_insert);
             $this->session->set_flashdata('success', 'Pengguna ' . $data_insert['nama_lengkap'] . ' berhasil ditambahkan.');
@@ -54,7 +74,7 @@ class AdminUser extends CI_Controller {
         redirect('adminuser');
     }
 
-    // Poin 9: Admin Ubah Pengguna (Termasuk Alamat)
+    // Admin Ubah Pengguna (Termasuk Alamat & Foto)
     public function edit($id) {
         $user = $this->User_model->get_by_id($id);
         if (!$user) {
@@ -65,13 +85,29 @@ class AdminUser extends CI_Controller {
 
         $this->load->library('form_validation');
 
-        $this->form_validation->set_rules('nama_lengkap', 'Nama Lengkap', 'required|trim');
-        $this->form_validation->set_rules('no_hp', 'Nomor HP', 'required|numeric|min_length[10]');
+        $this->form_validation->set_rules('nama_lengkap', 'Nama Lengkap', 'required|trim', [
+            'required' => 'Nama lengkap wajib diisi.'
+        ]);
+        $this->form_validation->set_rules('no_hp', 'Nomor HP', 'required|trim|min_length[10]', [
+            'required'   => 'Nomor HP wajib diisi.',
+            'min_length' => 'Nomor HP minimal 10 karakter/digit.'
+        ]);
 
-        // Validasi NIK jika diubah
+        // Validasi NIK
         $nik_input = trim($this->input->post('nik', true));
         if ($nik_input !== $user['nik']) {
-            $this->form_validation->set_rules('nik', 'NIK', 'required|numeric|exact_length[16]|is_unique[users.nik]');
+            $this->form_validation->set_rules('nik', 'NIK', 'required|numeric|exact_length[16]|is_unique[users.nik]', [
+                'required'     => 'NIK wajib diisi 16 digit.',
+                'numeric'      => 'NIK harus berupa angka.',
+                'exact_length' => 'NIK harus 16 digit.',
+                'is_unique'    => 'NIK sudah digunakan oleh user lain.'
+            ]);
+        } else {
+            $this->form_validation->set_rules('nik', 'NIK', 'required|numeric|exact_length[16]', [
+                'required'     => 'NIK wajib diisi 16 digit.',
+                'numeric'      => 'NIK harus berupa angka.',
+                'exact_length' => 'NIK harus 16 digit.'
+            ]);
         }
 
         if ($this->form_validation->run() == FALSE) {
@@ -85,10 +121,44 @@ class AdminUser extends CI_Controller {
                 'role'         => $this->input->post('role', true) ?: $user['role']
             ];
 
+            // Sinkronkan username jika sebelumnya sama dengan NIK
+            if ($user['username'] === $user['nik']) {
+                $data_update['username'] = $nik_input;
+            }
+
             // Password baru opsional jika diisi
             $new_pass = $this->input->post('password');
             if (!empty($new_pass)) {
                 $data_update['password'] = md5($new_pass);
+            }
+
+            // Handle Upload Foto jika diunggah baru
+            if (!empty($_FILES['foto']['name'])) {
+                $upload_path = './assets/uploads/avatars/';
+                if (!is_dir($upload_path)) {
+                    mkdir($upload_path, 0777, true);
+                }
+
+                $config['upload_path']   = $upload_path;
+                $config['allowed_types'] = 'jpg|jpeg|png|webp';
+                $config['max_size']      = 2048; // 2MB
+                $config['file_name']     = 'user_' . time() . '_' . rand(100, 999);
+
+                $this->load->library('upload', $config);
+                if ($this->upload->do_upload('foto')) {
+                    $upload_data = $this->upload->data();
+                    
+                    // Hapus foto lama jika bukan default
+                    if (!empty($user['foto']) && $user['foto'] !== 'default_avatar.png' && file_exists($upload_path . $user['foto'])) {
+                        unlink($upload_path . $user['foto']);
+                    }
+
+                    $data_update['foto'] = $upload_data['file_name'];
+                } else {
+                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    redirect('adminuser');
+                    return;
+                }
             }
 
             $this->User_model->update($id, $data_update);

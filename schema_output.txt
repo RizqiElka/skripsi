@@ -5,7 +5,7 @@ CREATE TABLE `admin` (
   `password` varchar(255) NOT NULL,
   `nama_lengkap` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 === TABLE: artikel ===
 CREATE TABLE `artikel` (
@@ -52,7 +52,7 @@ CREATE TABLE `layanan` (
   `deskripsi` text DEFAULT NULL,
   `icon` varchar(50) DEFAULT 'fas fa-stethoscope',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 === TABLE: notifikasi ===
 CREATE TABLE `notifikasi` (
@@ -87,6 +87,24 @@ CREATE TABLE `pendaftaran` (
   CONSTRAINT `fk_pendaftaran_layanan` FOREIGN KEY (`id_layanan`) REFERENCES `layanan` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
+=== TABLE: pengaduan ===
+CREATE TABLE `pengaduan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_pelapor` varchar(100) NOT NULL,
+  `nik` varchar(16) DEFAULT NULL,
+  `no_hp` varchar(20) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `kategori` varchar(50) NOT NULL,
+  `lokasi_layanan` varchar(100) NOT NULL,
+  `isi_pengaduan` text NOT NULL,
+  `tanggal_kejadian` date DEFAULT NULL,
+  `bukti_foto` varchar(255) DEFAULT NULL,
+  `status` enum('Menunggu','Diproses','Selesai','Ditolak') DEFAULT 'Menunggu',
+  `tanggapan` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci
+
 === TABLE: pengajuan_reaktivasi ===
 CREATE TABLE `pengajuan_reaktivasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -103,7 +121,7 @@ CREATE TABLE `pengajuan_reaktivasi` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `pengajuan_reaktivasi_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 === TABLE: pengajuan_uhc ===
 CREATE TABLE `pengajuan_uhc` (
@@ -126,7 +144,7 @@ CREATE TABLE `pengajuan_uhc` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `pengajuan_uhc_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 === TABLE: pengaturan ===
 CREATE TABLE `pengaturan` (
@@ -137,7 +155,7 @@ CREATE TABLE `pengaturan` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `kunci` (`kunci`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 === TABLE: peringatan ===
 CREATE TABLE `peringatan` (
@@ -196,19 +214,21 @@ CREATE TABLE `status_pengajuan` (
 === TABLE: stunting_results ===
 CREATE TABLE `stunting_results` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
   `nama_anak` varchar(255) DEFAULT NULL,
   `nama_ortu` varchar(255) DEFAULT NULL,
   `id_wilayah` int(11) DEFAULT NULL,
   `gender` enum('L','P') DEFAULT NULL,
   `umur_bulan` int(11) DEFAULT NULL,
   `tinggi_badan` float DEFAULT NULL,
+  `berat_badan` float DEFAULT NULL,
   `status_hasil` varchar(100) DEFAULT NULL,
   `z_score` float DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `fk_stunting_wilayah` (`id_wilayah`),
   CONSTRAINT `fk_stunting_wilayah` FOREIGN KEY (`id_wilayah`) REFERENCES `wilayah` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 === TABLE: surat_hasil ===
 CREATE TABLE `surat_hasil` (
@@ -245,11 +265,12 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `nama_lengkap` varchar(100) NOT NULL,
   `no_hp` varchar(15) NOT NULL DEFAULT '',
+  `alamat` text DEFAULT NULL,
   `role` enum('admin','pasien') NOT NULL DEFAULT 'pasien',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `nik` (`nik`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 === TABLE: wilayah ===
 CREATE TABLE `wilayah` (

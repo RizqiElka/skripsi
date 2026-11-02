@@ -240,4 +240,28 @@ class Uhc extends CI_Controller {
         $this->session->set_flashdata('success', 'Status pengajuan berhasil diperbarui.');
         redirect('uhc/admin_detail/' . $id);
     }
+
+    // Ekspor Excel Pengajuan UHC (Admin)
+    public function admin_export_excel() {
+        $this->_check_admin_login();
+        $pengajuan = $this->Uhc_model->get_all();
+
+        $filename = 'Laporan_Pengajuan_UHC_' . date('Ymd_His') . '.xls';
+        header("Content-Type: application/vnd.ms-excel; charset=utf-8");
+        header("Content-Disposition: attachment; filename=$filename");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        $data['pengajuan'] = $pengajuan;
+        $this->load->view('uhc/cetak_excel', $data);
+    }
+
+    // Ekspor PDF / Cetak Pengajuan UHC (Admin)
+    public function admin_export_pdf() {
+        $this->_check_admin_login();
+        $data['pengajuan'] = $this->Uhc_model->get_all();
+        $data['title'] = 'Laporan Data Pengajuan Universal Health Coverage (UHC)';
+        $data['profil'] = $this->Profil_model->get_profil();
+        $this->load->view('uhc/cetak_pdf', $data);
+    }
 }

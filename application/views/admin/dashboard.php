@@ -4,80 +4,80 @@
             <h1 class="h3 mb-1 text-gray-800 fw-bold">Overview Dashboard</h1>
             <p class="text-muted small mb-0">Selamat datang kembali di Pusat Manajemen Sistem Informasi Puskesmas.</p>
         </div>
-        <div class="d-flex gap-2">
-            <a href="<?= base_url('adminuser'); ?>" class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
-                <i class="fas fa-users me-1"></i> Kelola Data User
-            </a>
-            <a href="<?= base_url('adminpengaduan'); ?>" class="btn btn-warning btn-sm rounded-pill px-3 shadow-sm text-dark fw-bold">
-                <i class="fas fa-bullhorn me-1"></i> Cek Pengaduan (<?= $pengaduan_menunggu; ?>)
-            </a>
-        </div>
     </div>
 
     <!-- Stats Cards Row 1 -->
-    <div class="row g-4 mb-4">
-        <!-- Total Users (Highlight) -->
+    <div class="row g-3 mb-4">
+        <!-- Total Users -->
         <div class="col-xl-3 col-md-6">
-            <div class="card border-0 shadow-sm h-100 p-3" style="border-left: 5px solid var(--primary) !important; border-radius: 18px; background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="letter-spacing: .5px;">Data User Terdaftar</div>
-                        <div class="h3 mb-0 font-weight-bold text-gray-800"><?= $total_users; ?></div>
-                        <small class="text-muted" style="font-size: 11px;">Masyarakat &amp; Pasien</small>
-                    </div>
-                    <div class="bg-primary bg-opacity-10 p-3 rounded-4">
-                        <i class="fas fa-users text-primary fa-2x"></i>
+            <a href="<?= base_url('adminuser'); ?>" class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100 p-3 card-hover-stat" style="border-left: 4px solid var(--primary) !important; border-radius: 16px; background: #ffffff; transition: transform .2s, box-shadow .2s;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="letter-spacing: .5px; font-size: 11px;">Data User Terdaftar</div>
+                            <div class="h3 mb-0 font-weight-bold text-gray-800"><?= $total_users; ?></div>
+                            <small class="text-muted" style="font-size: 11px;">Masyarakat &amp; Pasien</small>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; border-radius: 12px; background: rgba(14, 165, 233, 0.12); color: #0284c7; flex-shrink: 0;">
+                            <i class="fas fa-users" style="font-size: 1.25rem;"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Pengaduan Masyarakat -->
         <div class="col-xl-3 col-md-6">
-            <div class="card border-0 shadow-sm h-100 p-3" style="border-left: 5px solid #f59e0b !important; border-radius: 18px; background: linear-gradient(135deg, #ffffff 0%, #fffbeb 100%);">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1" style="letter-spacing: .5px;">Pengaduan Masuk</div>
-                        <div class="h3 mb-0 font-weight-bold text-gray-800"><?= $total_pengaduan; ?></div>
-                        <small class="text-warning fw-bold" style="font-size: 11px;"><?= $pengaduan_menunggu; ?> Menunggu Tindak Lanjut</small>
-                    </div>
-                    <div class="bg-warning bg-opacity-10 p-3 rounded-4">
-                        <i class="fas fa-bullhorn text-warning fa-2x"></i>
+            <a href="<?= base_url('adminpengaduan'); ?>" class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100 p-3 card-hover-stat" style="border-left: 4px solid #f59e0b !important; border-radius: 16px; background: #ffffff; transition: transform .2s, box-shadow .2s;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1" style="letter-spacing: .5px; font-size: 11px;">Pengaduan Masuk</div>
+                            <div class="h3 mb-0 font-weight-bold text-gray-800"><?= $total_pengaduan; ?></div>
+                            <small class="text-warning fw-semibold" style="font-size: 11px;"><?= $pengaduan_menunggu; ?> Menunggu Tindak Lanjut</small>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; border-radius: 12px; background: rgba(245, 158, 11, 0.12); color: #d97706; flex-shrink: 0;">
+                            <i class="fas fa-bullhorn" style="font-size: 1.25rem;"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Pengajuan UHC -->
         <div class="col-xl-3 col-md-6">
-            <div class="card border-0 shadow-sm h-100 p-3" style="border-left: 5px solid #10b981 !important; border-radius: 18px; background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="letter-spacing: .5px;">Usulan UHC</div>
-                        <div class="h3 mb-0 font-weight-bold text-gray-800"><?= isset($total_uhc) ? $total_uhc : 0; ?></div>
-                        <small class="text-muted" style="font-size: 11px;"><?= isset($uhc_today) ? $uhc_today : 0; ?> Diajukan hari ini</small>
-                    </div>
-                    <div class="bg-success bg-opacity-10 p-3 rounded-4">
-                        <i class="fas fa-hand-holding-medical text-success fa-2x"></i>
+            <a href="<?= base_url('uhc/admin_list'); ?>" class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100 p-3 card-hover-stat" style="border-left: 4px solid #10b981 !important; border-radius: 16px; background: #ffffff; transition: transform .2s, box-shadow .2s;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="letter-spacing: .5px; font-size: 11px;">Usulan UHC</div>
+                            <div class="h3 mb-0 font-weight-bold text-gray-800"><?= isset($total_uhc) ? $total_uhc : 0; ?></div>
+                            <small class="text-muted" style="font-size: 11px;"><?= isset($uhc_today) ? $uhc_today : 0; ?> Diajukan hari ini</small>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.12); color: #059669; flex-shrink: 0;">
+                            <i class="fas fa-hand-holding-medical" style="font-size: 1.25rem;"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Reaktivasi Dinsos -->
         <div class="col-xl-3 col-md-6">
-            <div class="card border-0 shadow-sm h-100 p-3" style="border-left: 5px solid #0284c7 !important; border-radius: 18px; background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1" style="letter-spacing: .5px;">Reaktivasi Dinsos</div>
-                        <div class="h3 mb-0 font-weight-bold text-gray-800"><?= isset($total_reaktivasi) ? $total_reaktivasi : 0; ?></div>
-                        <small class="text-muted" style="font-size: 11px;"><?= isset($reaktivasi_today) ? $reaktivasi_today : 0; ?> Diajukan hari ini</small>
-                    </div>
-                    <div class="bg-info bg-opacity-10 p-3 rounded-4">
-                        <i class="fas fa-rotate text-info fa-2x"></i>
+            <a href="<?= base_url('reaktivasi/admin_list'); ?>" class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100 p-3 card-hover-stat" style="border-left: 4px solid #0284c7 !important; border-radius: 16px; background: #ffffff; transition: transform .2s, box-shadow .2s;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1" style="letter-spacing: .5px; font-size: 11px;">Reaktivasi Dinsos</div>
+                            <div class="h3 mb-0 font-weight-bold text-gray-800"><?= isset($total_reaktivasi) ? $total_reaktivasi : 0; ?></div>
+                            <small class="text-muted" style="font-size: 11px;"><?= isset($reaktivasi_today) ? $reaktivasi_today : 0; ?> Diajukan hari ini</small>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; border-radius: 12px; background: rgba(99, 102, 241, 0.12); color: #4f46e5; flex-shrink: 0;">
+                            <i class="fas fa-rotate" style="font-size: 1.25rem;"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 
@@ -87,8 +87,8 @@
             <div class="card border-0 shadow-sm h-100" style="border-radius: 20px;">
                 <div class="card-header bg-transparent border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center gap-2">
-                        <div class="bg-primary bg-opacity-10 p-2 rounded-3 text-primary">
-                            <i class="fas fa-user-group fs-5"></i>
+                        <div class="d-flex align-items-center justify-content-center rounded-3 text-primary" style="width: 36px; height: 36px; background: rgba(14, 165, 233, 0.12);">
+                            <i class="fas fa-users fs-5"></i>
                         </div>
                         <div>
                             <h6 class="m-0 font-weight-bold text-primary">Data User / Pasien Terdaftar</h6>
@@ -127,23 +127,28 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="badge bg-light text-dark border font-monospace" style="font-size: 11px;">
+                                            <span class="badge bg-light border font-monospace" style="font-size: 11px; color: #000000 !important; font-weight: 600;">
                                                 <?= htmlspecialchars($u['nik']); ?>
                                             </span>
                                         </td>
-                                        <td class="small">
+                                        <td class="small font-monospace" style="color: #000000;">
                                             <?= htmlspecialchars($u['no_hp'] ?: '-'); ?>
                                         </td>
                                         <td class="small text-muted" style="font-size: 11px;">
                                             <?= date('d/m/Y H:i', strtotime($u['created_at'])); ?>
                                         </td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('adminuser/reset_password/' . $u['id']); ?>" class="btn btn-sm btn-outline-warning p-1 px-2 rounded-pill" title="Reset password" onclick="return confirm('Reset password akun <?= htmlspecialchars($u['nama_lengkap']); ?> menjadi 123456?');">
-                                                <i class="fas fa-key" style="font-size: 10px;"></i>
-                                            </a>
-                                            <a href="<?= base_url('adminuser/delete/' . $u['id']); ?>" class="btn btn-sm btn-outline-danger p-1 px-2 rounded-pill ms-1" title="Hapus user" onclick="return confirm('Hapus user <?= htmlspecialchars($u['nama_lengkap']); ?>?');">
-                                                <i class="fas fa-trash" style="font-size: 10px;"></i>
-                                            </a>
+                                            <div class="d-inline-flex gap-1">
+                                                <button type="button" class="btn btn-sm btn-outline-primary p-1 px-2 rounded-pill" title="Edit user" data-bs-toggle="modal" data-bs-target="#modalEditDashUser<?= $u['id']; ?>">
+                                                    <i class="fas fa-pencil" style="font-size: 11px;"></i>
+                                                </button>
+                                                <a href="<?= base_url('adminuser/reset_password/' . $u['id']); ?>" class="btn btn-sm btn-outline-warning p-1 px-2 rounded-pill" title="Reset password" onclick="return confirm('Reset password akun <?= htmlspecialchars($u['nama_lengkap']); ?> menjadi 123456?');">
+                                                    <i class="fas fa-key" style="font-size: 11px;"></i>
+                                                </a>
+                                                <a href="<?= base_url('adminuser/delete/' . $u['id']); ?>" class="btn btn-sm btn-outline-danger p-1 px-2 rounded-pill" title="Hapus user" onclick="return confirm('Hapus user <?= htmlspecialchars($u['nama_lengkap']); ?>?');">
+                                                    <i class="fas fa-trash" style="font-size: 11px;"></i>
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -206,3 +211,55 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Edit User dari Dashboard -->
+<?php if(!empty($recent_users)): ?>
+    <?php foreach($recent_users as $u): ?>
+    <div class="modal fade text-start" id="modalEditDashUser<?= $u['id']; ?>" tabindex="-1" aria-labelledby="modalEditDashUserLabel<?= $u['id']; ?>" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius:20px;">
+                <form action="<?= base_url('adminuser/edit/' . $u['id']); ?>" method="post">
+                    <div class="modal-header border-0 pb-0">
+                        <h5 class="modal-title fw-bold" id="modalEditDashUserLabel<?= $u['id']; ?>">Ubah Data Pengguna</h5>
+                        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">NIK (16 Digit) <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="nik" value="<?= htmlspecialchars($u['nik']); ?>" required maxlength="16" pattern="[0-9]{16}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Nama Lengkap <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="nama_lengkap" value="<?= htmlspecialchars($u['nama_lengkap']); ?>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Nomor HP <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="no_hp" value="<?= htmlspecialchars($u['no_hp']); ?>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Alamat Lengkap Domisili</label>
+                            <textarea class="form-control" name="alamat" rows="2.5" placeholder="Masukkan alamat lengkap RT/RW, Kelurahan, Kecamatan..."><?= htmlspecialchars($u['alamat'] ?? ''); ?></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Role Akses</label>
+                            <select class="form-select" name="role">
+                                <option value="pasien" <?= ($u['role'] == 'pasien') ? 'selected' : ''; ?>>Pasien / Masyarakat</option>
+                                <option value="admin" <?= ($u['role'] == 'admin') ? 'selected' : ''; ?>>Administrator</option>
+                            </select>
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label small fw-bold">Ganti Password (Kosongkan bila tidak diubah)</label>
+                            <input type="password" class="form-control" name="password" placeholder="Password baru...">
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+<?php endif; ?>
+
