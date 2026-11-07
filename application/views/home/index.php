@@ -258,7 +258,7 @@
         <div class="d-flex align-items-end justify-content-between mb-5 flex-wrap gap-4 reveal">
             <div>
                 <div class="section-label"><i class="fas fa-newspaper"></i> Wawasan Sehat</div>
-                <h2 class="fw-bold mt-3 mb-0" style="font-family:'Outfit',sans-serif;font-size:2.8rem; letter-spacing:-1.5px;">Kegiatan & Tips Kesehatan</h2>
+                <h2 class="fw-bold mt-3 mb-0" style="font-family:'Outfit',sans-serif;font-size:2.8rem; letter-spacing:-1.5px;">Berita Terbaru</h2>
             </div>
             <a href="<?= base_url('artikel'); ?>" class="btn btn-outline-primary btn-lg px-4" style="border-radius:16px;">
                 Jelajahi Berita <i class="fas fa-arrow-right ms-2"></i>
